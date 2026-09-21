@@ -1,0 +1,41 @@
+# Transaction Data
+transactions <- list(
+ c("Milk","Bread","Butter"),
+ c("Bread","Butter"),
+ c("Milk","Bread"),
+ c("Milk","Butter"),
+ c("Bread","Butter","Eggs"),
+ c("Milk","Bread","Butter"),
+ c("Milk","Eggs"),
+ c("Bread","Eggs"),
+ c("Milk","Bread","Eggs"),
+ c("Bread","Butter")
+)
+n <- length(transactions)
+R Programming LabPage 54
+KG College of Arts and Science (Autonomous) Lab Manual - 2024 Batch onwards
+# Support(Milk)
+milk_count <- sum(
+ sapply(transactions,
+ function(x) "Milk" %in% x)
+)
+# Support(Bread)
+bread_count <- sum(
+ sapply(transactions,
+ function(x) "Bread" %in% x)
+)
+# Support(Milk and Bread)
+milk_bread <- sum(
+ sapply(transactions,
+ function(x)
+ all(c("Milk","Bread") %in% x))
+)
+support <- milk_bread/n
+confidence <- milk_bread/milk_count
+lift <- confidence/(bread_count/n)
+cat("Association Rule\n")
+cat("Milk -> Bread\n")
+cat("Support =",support,"\n")
+cat("Confidence =",confidence,"\n")
+cat("Lift =",lift,"\n")
+O
