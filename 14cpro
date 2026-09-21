@@ -1,0 +1,64 @@
+# Experiment 14(b): Compare Different K Values
+
+# Sample dataset
+data <- data.frame(
+  Age = c(22, 25, 27, 30, 35, 40, 42, 45, 50, 52),
+  Income = c(20, 25, 28, 32, 40, 55, 60, 65, 75, 80)
+)
+
+# Display the dataset
+print(data)
+
+# Standardize the data
+data_scaled <- scale(data)
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Different K values
+k_values <- 2:5
+
+# Store WCSS values
+wcss <- numeric(length(k_values))
+
+# Apply K-Means for different K values
+for (i in seq_along(k_values)) {
+  
+  k <- k_values[i]
+  
+  km <- kmeans(data_scaled, centers = k, nstart = 25)
+  
+  wcss[i] <- km$tot.withinss
+}
+
+# Display WCSS values
+result <- data.frame(
+  K = k_values,
+  WCSS = round(wcss, 3)
+)
+
+print(result)
+
+# Plot Elbow Curve
+plot(k_values, wcss,
+     type = "b",
+     pch = 19,
+     xlab = "Number of Clusters (K)",
+     ylab = "Within-Cluster Sum of Squares",
+     main = "Elbow Method for Selecting K")
+
+# Select K = 3 based on the elbow
+set.seed(123)
+
+final_kmeans <- kmeans(data_scaled,
+                       centers = 3,
+                       nstart = 25)
+
+# Display cluster assignments
+data$Cluster <- final_kmeans$cluster
+
+print(data)
+
+# Display cluster centers
+print(final_kmeans$centers)
+
